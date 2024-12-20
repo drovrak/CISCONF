@@ -31,9 +31,9 @@
             <!-- Section Main Avancé -->
             <div class="config-section">
                 <h3>
-                    <label>Configuration Principale Avancé</label>
+                    <label><input type="checkbox" onclick="toggleDetails(this)">Configuration Principale Avancé</label>
                 </h3>
-                <div>
+                <div class="details">
                     <label>Configure le nom de domaine :</label>
                     <input type="text" id="domainName" placeholder="www.exemple.com">
                     <label>Configure l'adresse du serveur syslog :</label>
