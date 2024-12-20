@@ -5,9 +5,40 @@ function toggleDetails(checkbox) {
 
 function sendData() {
     const data = {
-        hostname: document.getElementById('hostname').value || 'ROUTER1',
-        enableSecret: document.getElementById('enableSecret').value || 'cisco123',
-        // Other fields...
+        interface: {
+            type: document.getElementById('interfaceType').value || '',
+            number: document.getElementById('interfaceNumber').value || '',
+            ip: document.getElementById('interfaceIp').value || '',
+            mask: document.getElementById('interfaceMask').value || ''
+        },
+        ospf: {
+            asNumber: document.getElementById('ospfAsNumber').value || '',
+            routerId: document.getElementById('ospfRouterId').value || '',
+            network: document.getElementById('ospfNetwork').value || '',
+            area: document.getElementById('ospfArea').value || ''
+        },
+        eigrp: {
+            asNumber: document.getElementById('eigrpAsNumber').value || '',
+            network: document.getElementById('eigrpNetwork').value || '',
+            mask: document.getElementById('eigrpMask').value || ''
+        },
+        rip: {
+            version: document.getElementById('ripVersion').value,
+            network: document.getElementById('ripNetwork').value || ''
+        },
+        acl: {
+            type: document.getElementById('aclType').value || '',
+            name: document.getElementById('aclName').value || '',
+            rule: document.getElementById('aclRule').value || ''
+        },
+        snmp: {
+            community: document.getElementById('snmpCommunity').value || '',
+            access: document.getElementById('snmpAccess').value || 'RO'
+        },
+        hsrp: {
+            group: document.getElementById('hsrpGroup').value || '',
+            ip: document.getElementById('hsrpIp').value || ''
+        }
     };
 
     fetch("/generate_config", {

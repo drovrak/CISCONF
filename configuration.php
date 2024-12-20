@@ -28,7 +28,24 @@
                     <label><input type="checkbox" id="disableDomainLookup"> Désactiver la recherche de domaine IP</label>
                 </div>
             </div>
-
+            <!-- Section Main Avancé -->
+            <div class="config-section">
+                <h3>
+                    <label>Configuration Principale Avancé</label>
+                </h3>
+                <div>
+                    <label>Configure le nom de domaine :</label>
+                    <input type="text" id="domainName" placeholder="www.exemple.com">
+                    <label>Configure l'adresse du serveur syslog :</label>
+                    <input type="text" id="serveurSyslog" placeholder="www.syslog_exemple.com">
+                    <label>Ajoute un alias exécutable :</label>
+                    <input type="text" id="alias" placeholder="al=alias">
+                    <label>Configure un utilisateur avec privilège et mot de passe :</label>
+                    <input type="text" id="username" placeholder="DUPONT">
+                    <input type="text" id="userPassword" placeholder="******">
+                    <label><input type="checkbox" id="serviceTimestamps"> Active le timestamp des logs.</label>
+                </div>
+            </div>
             <!-- Section NTP -->
             <div class="config-section">
                 <h3>
@@ -107,6 +124,63 @@
                     <label>Bande passante (%) :</label>
                     <input type="text" id="qosBandwidth" placeholder="20">
                 </div>
+            </div>
+            <!-- EIGRP -->
+            <div class="config-section">
+                <h3>Configuration EIGRP</h3>
+                <label>Numéro AS EIGRP :</label>
+                <input type="text" id="eigrpAsNumber" placeholder="1">
+                <label>Network :</label>
+                <input type="text" id="eigrpNetwork" placeholder="192.168.1.0">
+                <label>Masque inversé :</label>
+                <input type="text" id="eigrpMask" placeholder="0.0.0.255">
+            </div>
+
+            <!-- RIP -->
+            <div class="config-section">
+                <h3>Configuration RIP</h3>
+                <label>Version RIP :</label>
+                <select id="ripVersion">
+                    <option value="1">1</option>
+                    <option value="2" selected>2</option>
+                </select>
+                <label>Network :</label>
+                <input type="text" id="ripNetwork" placeholder="192.168.1.0">
+            </div>
+
+            <!-- ACL -->
+            <div class="config-section">
+                <h3>Configuration ACL</h3>
+                <label>Type d'ACL :</label>
+                <select id="aclType">
+                    <option value="standard">Standard</option>
+                    <option value="extended">Étendue</option>
+                </select>
+                <label>Nom/Numéro de l'ACL :</label>
+                <input type="text" id="aclName" placeholder="10">
+                <label>Règle :</label>
+                <input type="text" id="aclRule" placeholder="permit ip any any">
+            </div>
+
+            <!-- SNMP -->
+            <div class="config-section">
+                <h3>Configuration SNMP</h3>
+                <label>Communauté SNMP :</label>
+                <input type="text" id="snmpCommunity" placeholder="public">
+                <label>Type d'accès :</label>
+                <select id="snmpAccess">
+                    <option value="RO">Lecture seule (RO)</option>
+                    <option value="RW">Lecture/Écriture (RW)</option>
+                </select>
+            </div>
+
+            <!-- HSRP -->
+            <div class="config-section">
+                <h3>Configuration HSRP</h3>
+                <label>Groupe HSRP :</label>
+                <input type="text" id="hsrpGroup" placeholder="1">
+                <label>IP Virtuelle :</label>
+                <input type="text" id="hsrpIp" placeholder="192.168.1.254">
             </div>
 
             <!-- Bouton pour envoyer -->
