@@ -57,7 +57,7 @@
                 <input type="text" id="name" placeholder="Votre nom">
 
                 <label for="email">Email :</label>
-                <input type="email" id="email" placeholder="Votre email">
+                <input type="email" id="email" placeholder="Votre esmail">
 
                 <label for="message">Message :</label>
                 <textarea id="message" rows="5" placeholder="Votre message"></textarea>
