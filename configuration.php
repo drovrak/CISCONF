@@ -8,6 +8,7 @@
     <title>Personnalisation de Configuration - Cisconf</title>
     <link rel="stylesheet" href="styles/global.css">
     <link rel="stylesheet" href="styles/configuration.css">
+    <script src="scripts/configuration.js" defer></script>
 </head>
 <body>
     <main class="container">
@@ -15,182 +16,115 @@
         <form id="configForm">
             <!-- Section Main Configuration -->
             <div class="config-section">
-                <h3>
-                    <label>Configuration Principale</label>
-                </h3>
+                <h3>Configuration Principale</h3>
                 <div>
-                    <label>Nom d'hôte :</label>
-                    <input type="text" id="hostname" placeholder="ROUTER1">
-                    <label>Mot de passe enable secret :</label>
-                    <input type="text" id="enableSecret" placeholder="cisco123">
-                    <label>Message d'accueil :</label>
-                    <input type="text" id="banner" placeholder="Bienvenue !">
-                    <label><input type="checkbox" id="disableDomainLookup"> Désactiver la recherche de domaine IP</label>
-                </div>
-            </div>
-            <!-- Section Main Avancé -->
-            <div class="config-section">
-                <h3>
-                    <label><input type="checkbox" onclick="toggleDetails(this)">Configuration Principale Avancé</label>
-                </h3>
-                <div class="details">
-                    <label>Configure le nom de domaine :</label>
-                    <input type="text" id="domainName" placeholder="www.exemple.com">
-                    <label>Configure l'adresse du serveur syslog :</label>
-                    <input type="text" id="serveurSyslog" placeholder="www.syslog_exemple.com">
-                    <label>Ajoute un alias exécutable :</label>
-                    <input type="text" id="alias" placeholder="al=alias">
-                    <label>Configure un utilisateur avec privilège et mot de passe :</label>
-                    <input type="text" id="username" placeholder="DUPONT">
-                    <input type="text" id="userPassword" placeholder="******">
-                    <label><input type="checkbox" id="serviceTimestamps"> Active le timestamp des logs.</label>
-                </div>
-            </div>
-            <!-- Section NTP -->
-            <div class="config-section">
-                <h3>
-                    <label><input type="checkbox" onclick="toggleDetails(this)"> Configuration NTP</label>
-                </h3>
-                <div class="details">
-                    <label>Serveur NTP :</label>
-                    <input type="text" id="ntpServer" placeholder="192.168.1.1">
-                    <label>Clé d'authentification :</label>
-                    <input type="text" id="ntpAuthKey" placeholder="Clé123">
-                    <label>Clé de confiance :</label>
-                    <input type="text" id="ntpTrustedKey" placeholder="1">
+                    <label for="hostname">Nom d'hôte :</label>
+                    <input type="text" id="hostname" name="hostname" placeholder="ROUTER1">
+                    <label for="enableSecret">Mot de passe enable secret :</label>
+                    <input type="text" id="enableSecret" name="enableSecret" placeholder="cisco123">
+                    <label for="banner">Message d'accueil :</label>
+                    <input type="text" id="banner" name="banner" placeholder="Bienvenue !">
+                    <label for="disableDomainLookup"><input type="checkbox" id="disableDomainLookup" name="disableDomainLookup"> Désactiver la recherche de domaine IP</label>
                 </div>
             </div>
 
-            <!-- Section DHCP -->
-            <div class="config-section">
-                <h3>
-                    <label><input type="checkbox" onclick="toggleDetails(this)"> Configuration DHCP</label>
-                </h3>
-                <div class="details">
-                    <label>Nom du pool DHCP :</label>
-                    <input type="text" id="dhcpPool" placeholder="POOL1">
-                    <label>Adresse réseau :</label>
-                    <input type="text" id="dhcpNetwork" placeholder="192.168.1.0">
-                    <label>Masque :</label>
-                    <input type="text" id="dhcpMask" placeholder="255.255.255.0">
+            <!-- Section Interfaces -->
+            <div class="config-section" id="interfaces">
+                <h3>Interfaces</h3>
+                <div class="interface-config">
+                    <label for="interface-type">Type :</label>
+                    <input type="text" id="interface-type" name="interfaceType[]" placeholder="Type (e.g., GigabitEthernet)">
+                    <label for="interface-number">Numéro :</label>
+                    <input type="text" id="interface-number" name="interfaceNumber[]" placeholder="Numéro (e.g., 0/1)">
+                    <label for="interface-ip">Adresse IP :</label>
+                    <input type="text" id="interface-ip" name="interfaceIp[]" placeholder="Adresse IP">
+                    <label for="interface-mask">Masque :</label>
+                    <input type="text" id="interface-mask" name="interfaceMask[]" placeholder="Masque de sous-réseau">
+                    <label for="interface-description">Description :</label>
+                    <input type="text" id="interface-description" name="interfaceDescription[]" placeholder="Description">
+                    <label for="interface-mode">Mode :</label>
+                    <input type="text" id="interface-mode" name="interfaceMode[]" placeholder="Mode (access/trunk)">
+                    <label for="interface-vlan">VLAN :</label>
+                    <input type="text" id="interface-vlan" name="interfaceVlan[]" placeholder="VLAN">
                 </div>
+                <button type="button" onclick="addInterface()">Ajouter une interface</button>
+            </div>
+
+            <!-- Section VLANs -->
+            <div class="config-section" id="vlans">
+                <h3>VLANs</h3>
+                <div class="vlan-config">
+                    <label for="vlan-id">ID VLAN :</label>
+                    <input type="text" id="vlan-id" name="vlanId[]" placeholder="VLAN ID">
+                    <label for="vlan-name">Nom VLAN :</label>
+                    <input type="text" id="vlan-name" name="vlanName[]" placeholder="Nom VLAN">
+                </div>
+                <button type="button" onclick="addVlan()">Ajouter un VLAN</button>
             </div>
 
             <!-- Section OSPF -->
-            <div class="config-section">
-                <h3>
-                    <label><input type="checkbox" onclick="toggleDetails(this)"> Configuration OSPF</label>
-                </h3>
-                <div class="details">
-                    <label>Numéro AS OSPF :</label>
-                    <input type="text" id="ospfAsNumber" placeholder="1">
-                    <label>Router ID :</label>
-                    <input type="text" id="ospfRouterId" placeholder="1.1.1.1">
-                    <label>Network :</label>
-                    <input type="text" id="ospfNetwork" placeholder="192.168.1.0">
-                    <label>Masque inversé :</label>
-                    <input type="text" id="ospfMask" placeholder="0.0.0.255">
-                    <label>Zone :</label>
-                    <input type="text" id="ospfArea" placeholder="0">
+            <div class="config-section" id="ospf">
+                <h3>OSPF</h3>
+                <div>
+                    <label for="ospfAsNumber">Numéro AS OSPF :</label>
+                    <input type="text" id="ospfAsNumber" name="ospfAsNumber" placeholder="1">
+                    <label for="ospfRouterId">Router ID :</label>
+                    <input type="text" id="ospfRouterId" name="ospfRouterId" placeholder="1.1.1.1">
                 </div>
+                <button type="button" onclick="addOspfNetwork()">Ajouter un réseau OSPF</button>
             </div>
 
-            <!-- Section SSH -->
-            <div class="config-section">
-                <h3>
-                    <label><input type="checkbox" onclick="toggleDetails(this)"> Configuration SSH</label>
-                </h3>
-                <div class="details">
-                    <label>Nom de domaine :</label>
-                    <input type="text" id="sshDomain" placeholder="exemple.com">
-                    <label>Clé RSA (bits) :</label>
-                    <input type="text" id="sshKey" placeholder="2048">
-                    <label>Version SSH :</label>
-                    <select id="sshVersion">
+            <!-- Section RIP -->
+            <div class="config-section" id="rip">
+                <h3>RIP</h3>
+                <div>
+                    <label for="ripVersion">Version RIP :</label>
+                    <select id="ripVersion" name="ripVersion">
                         <option value="1">1</option>
                         <option value="2" selected>2</option>
                     </select>
+                    <label for="ripNetwork">Network :</label>
+                    <input type="text" id="ripNetwork" name="ripNetwork[]" placeholder="192.168.1.0">
                 </div>
+                <button type="button" onclick="addRipNetwork()">Ajouter un réseau RIP</button>
+            </div>
+
+            <!-- Section EIGRP -->
+            <div class="config-section" id="eigrp">
+                <h3>EIGRP</h3>
+                <div>
+                    <label for="eigrpAsNumber">Numéro AS EIGRP :</label>
+                    <input type="text" id="eigrpAsNumber" name="eigrpAsNumber" placeholder="1">
+                    <label for="eigrpNetwork">Network :</label>
+                    <input type="text" id="eigrpNetwork" name="eigrpNetwork[]" placeholder="192.168.1.0">
+                    <label for="eigrpMask">Masque inversé :</label>
+                    <input type="text" id="eigrpMask" name="eigrpMask[]" placeholder="0.0.0.255">
+                </div>
+                <button type="button" onclick="addEigrpNetwork()">Ajouter un réseau EIGRP</button>
             </div>
 
             <!-- Section QoS -->
-            <div class="config-section">
-                <h3>
-                    <label><input type="checkbox" onclick="toggleDetails(this)"> Configuration QoS</label>
-                </h3>
-                <div class="details">
-                    <label>Nom de la classe QoS :</label>
-                    <input type="text" id="qosClass" placeholder="VOIP">
-                    <label>Bande passante (%) :</label>
-                    <input type="text" id="qosBandwidth" placeholder="20">
+            <div class="config-section" id="qos">
+                <h3>QoS</h3>
+                <div>
+                    <label for="qosClass">Nom de la classe QoS :</label>
+                    <input type="text" id="qosClass" name="qosClass[]" placeholder="VOIP">
+                    <label for="qosBandwidth">Bande passante (%) :</label>
+                    <input type="text" id="qosBandwidth" name="qosBandwidth[]" placeholder="20">
                 </div>
-            </div>
-            <!-- EIGRP -->
-            <div class="config-section">
-                <h3>Configuration EIGRP</h3>
-                <label>Numéro AS EIGRP :</label>
-                <input type="text" id="eigrpAsNumber" placeholder="1">
-                <label>Network :</label>
-                <input type="text" id="eigrpNetwork" placeholder="192.168.1.0">
-                <label>Masque inversé :</label>
-                <input type="text" id="eigrpMask" placeholder="0.0.0.255">
+                <button type="button" onclick="addQosClass()">Ajouter une classe QoS</button>
             </div>
 
-            <!-- RIP -->
-            <div class="config-section">
-                <h3>Configuration RIP</h3>
-                <label>Version RIP :</label>
-                <select id="ripVersion">
-                    <option value="1">1</option>
-                    <option value="2" selected>2</option>
-                </select>
-                <label>Network :</label>
-                <input type="text" id="ripNetwork" placeholder="192.168.1.0">
+            <!-- Résultat -->
+            <div class="config-output">
+                <h3>Configuration Générée</h3>
+                <textarea id="outputConfig" readonly></textarea>
             </div>
 
-            <!-- ACL -->
-            <div class="config-section">
-                <h3>Configuration ACL</h3>
-                <label>Type d'ACL :</label>
-                <select id="aclType">
-                    <option value="standard">Standard</option>
-                    <option value="extended">Étendue</option>
-                </select>
-                <label>Nom/Numéro de l'ACL :</label>
-                <input type="text" id="aclName" placeholder="10">
-                <label>Règle :</label>
-                <input type="text" id="aclRule" placeholder="permit ip any any">
-            </div>
-
-            <!-- SNMP -->
-            <div class="config-section">
-                <h3>Configuration SNMP</h3>
-                <label>Communauté SNMP :</label>
-                <input type="text" id="snmpCommunity" placeholder="public">
-                <label>Type d'accès :</label>
-                <select id="snmpAccess">
-                    <option value="RO">Lecture seule (RO)</option>
-                    <option value="RW">Lecture/Écriture (RW)</option>
-                </select>
-            </div>
-
-            <!-- HSRP -->
-            <div class="config-section">
-                <h3>Configuration HSRP</h3>
-                <label>Groupe HSRP :</label>
-                <input type="text" id="hsrpGroup" placeholder="1">
-                <label>IP Virtuelle :</label>
-                <input type="text" id="hsrpIp" placeholder="192.168.1.254">
-            </div>
-
-            <!-- Bouton pour envoyer -->
+            <!-- Bouton pour générer la configuration -->
             <button type="button" onclick="sendData()">Générer Configuration</button>
         </form>
-
-        <textarea id="outputConfig" readonly></textarea>
     </main>
-
-    <script src="scripts/configuration.js"></script>
     <?php include 'includes/footer.php'; ?>
 </body>
 </html>
