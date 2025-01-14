@@ -37,8 +37,10 @@ error_logger.propagate = False
 @app.route("/")
 def home():
     general_logger.info("Accès à la page d'accueil")
-    return render_template("index.html", title="Accueil")
-
+    return render_template("index.php", title="Accueil")
+@app.route('/configuration.php')
+def configuration():
+    return render_template('configuration.php')
 
 # Route pour exécuter les fonctions
 @app.route('/execute', methods=['POST'])
@@ -48,7 +50,7 @@ def execute_functions():
         general_logger.info(f"Requête reçue avec les commandes : {data}")
         configuration = "".join([eval(function) for function in data])
         general_logger.info("Configuration générée avec succès")
-        return render_template("index.html", config=configuration)
+        return render_template("index.php", config=configuration)
     except Exception as e:
         error_logger.error(f"Erreur lors de l'exécution des fonctions : {e}")
         return jsonify({"error": "Une erreur est survenue"}), 500
