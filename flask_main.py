@@ -46,7 +46,7 @@ def configuration():
 @app.route('/execute', methods=['POST'])
 def execute_functions():
     try:
-        data = request.json.get('commands', [])  # Recevoir les données JSON envoyées depuis le frontend
+        data = request.json['data']  # Recevoir les données JSON envoyées depuis le frontend
         general_logger.info(f"Requête reçue avec les commandes : {data}")
         configuration = "".join([eval(function) for function in data])
         general_logger.info("Configuration générée avec succès")
