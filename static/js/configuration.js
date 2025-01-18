@@ -4,10 +4,57 @@ function toggleDetails(checkbox) {
     const details = checkbox.closest('.config-section').querySelector('.details');
     details.style.display = checkbox.checked ? 'block' : 'none';
 }
+function formatDataAsCommands(data) {
+    
+    //formatage du contenue pour etre compatible avec le serveur
+    const commands = [];
 
+    // Ajout des commandes basées sur les données collectées
+    if (data.hostname) {
+        commands.push(`Ssh.set_domain_name('${data.hostname}')`);
+    }
+    if (data.banner) {
+        commands.push(`System.set_banner('${data.banner}')`);
+    }
+    if (data.disableDomainLookup) {
+        commands.push(`System.disable_domain_lookup()`);
+    }
+
+    data.interfaces.forEach((iface) => {
+        commands.push(`Interface.set_description('${iface.description}')`);
+    });
+
+    if (data.ospf) {
+        commands.push(`Routing.OSPF.set_as_number('${data.ospf.asNumber}')`);
+        commands.push(`Routing.OSPF.set_router_id('${data.ospf.routerId}')`);
+        data.ospf.networks.forEach((network) => {
+            commands.push(`Routing.OSPF.add_network('${network.address}', '${network.mask}', '${network.area}')`);
+        });
+    }
+
+    if (data.rip) {
+        commands.push(`Routing.RIP.set_version('${data.rip.version}')`);
+        data.rip.networks.forEach((network) => {
+            commands.push(`Routing.RIP.add_network('${network.address}')`);
+        });
+    }
+
+    if (data.eigrp) {
+        commands.push(`Routing.EIGRP.set_as_number('${data.eigrp.asNumber}')`);
+        data.eigrp.networks.forEach((network) => {
+            commands.push(`Routing.EIGRP.add_network('${network.address}', '${network.mask}')`);
+        });
+    }
+
+    data.qos.forEach((qos) => {
+        commands.push(`QoS.set_class('${qos.class}', '${qos.bandwidth}')`);
+    });
+
+    return { data: commands };
+}
 function sendData() {
     console.log("Début de l'envoi des données..."); // Point de débogage 1
-
+    
     // Vérifications globales
     const hostnameElement = document.getElementById('hostname');
     const enableSecretElement = document.getElementById('enableSecret');
@@ -49,25 +96,32 @@ function sendData() {
     };
 
     console.log('Données collectées pour envoi :', data); // Point de débogage 2
+    // Transformation des données en commandes
+    const formattedData = formatDataAsCommands(data);
 
+    console.log('Données formatées pour envoi :', formattedData);
     fetch('/execute', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json', // Type des données envoyées
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ example: 'data' }), // Exemple de données envoyées
+        body: JSON.stringify(formattedData)
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.text(); // Lire la réponse comme un texte brut
-        })
-        .then(rawResponse => {
-            console.log('Réponse brute:', rawResponse); // Affiche le texte brut dans la console
-            document.getElementById('server-response').innerText = rawResponse; // Affiche dans une zone spécifique
-        })
-        .catch(error => console.error('Erreur:', error));
+    .then(response => {
+        console.log('Réponse du serveur reçue :', response); // Point de débogage 3
+        if (!response.ok) {
+            throw new Error('Erreur réseau lors de la communication avec le backend.');
+        }
+        return response.json();
+    })
+    .then(result => {
+        console.log('Résultat reçu du backend :', result); // Point de débogage 4
+        document.getElementById('outputConfig').value = result.config || 'Aucune configuration générée.';
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        document.getElementById('outputConfig').value = 'Une erreur est survenue lors de la génération.';
+    });
 }
 
 function getInterfaces() {

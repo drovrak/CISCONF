@@ -41,12 +41,18 @@ def home():
 @app.route('/configuration.php')
 def configuration():
     return render_template('configuration.php')
-
+@app.route('/includes/header.php')
+def header():
+    return render_template('includes/header.php')
+@app.route('/includes/footer.php')
+def footer():
+    return render_template('includes/footer.php')
 # Route pour exécuter les fonctions
 @app.route('/execute', methods=['POST'])
 def execute_functions():
     try:
-        data = request.json['data']  # Recevoir les données JSON envoyées depuis le frontend
+        data = request.json['formattedData']  # Recevoir les données JSON envoyées depuis le frontend
+        print(data)
         general_logger.info(f"Requête reçue avec les commandes : {data}")
         configuration = "".join([eval(function) for function in data])
         general_logger.info("Configuration générée avec succès")
