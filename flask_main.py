@@ -49,17 +49,21 @@ def footer():
     return render_template('includes/footer.php')
 # Route pour exécuter les fonctions
 @app.route('/execute', methods=['POST'])
-def execute_functions():
+def execute_commands():
     try:
-        data = request.json['formattedData']  # Recevoir les données JSON envoyées depuis le frontend
-        print(data)
-        general_logger.info(f"Requête reçue avec les commandes : {data}")
-        configuration = "".join([eval(function) for function in data])
-        general_logger.info("Configuration générée avec succès")
-        return render_template("index.php", config=configuration)
+        data = request.get_json()  # Récupérer les données JSON
+        print("Données reçues :", data)
+
+        # Simuler l'exécution des commandes
+        for command in data:
+            print(f"Exécution de la commande : {command}")
+            # Ajoutez ici votre logique d'exécution réelle
+
+        return render_template("configuration.php", config=configuration)
     except Exception as e:
-        error_logger.error(f"Erreur lors de l'exécution des fonctions : {e}")
-        return jsonify({"error": "Une erreur est survenue"}), 500
+        app.logger.error(f"Erreur lors de l'exécution des fonctions : {e}")
+        return jsonify({"error": f"Erreur lors de l'exécution : {e}"}), 500
+
 
 
 # Gestion des erreurs 404

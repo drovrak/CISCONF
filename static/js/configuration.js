@@ -4,53 +4,69 @@ function toggleDetails(checkbox) {
     const details = checkbox.closest('.config-section').querySelector('.details');
     details.style.display = checkbox.checked ? 'block' : 'none';
 }
+
 function formatDataAsCommands(data) {
-    
-    //formatage du contenue pour etre compatible avec le serveur
+    // Formatage des données pour le serveur en appelant les fonctions Python
     const commands = [];
 
-    // Ajout des commandes basées sur les données collectées
-    if (data.hostname) {
-        commands.push(`Ssh.set_domain_name('${data.hostname}')`);
-    }
-    if (data.banner) {
-        commands.push(`System.set_banner('${data.banner}')`);
-    }
-    if (data.disableDomainLookup) {
-        commands.push(`System.disable_domain_lookup()`);
-    }
+    try {
+        // Configuration de base
+        commands.push(`set_hostname(\"${data.hostname}\")`);
+        commands.push(`set_enable_secret(\"${data.enableSecret}\")`);
+        commands.push(`set_banner(\"${data.banner}\")`);
 
-    data.interfaces.forEach((iface) => {
-        commands.push(`Interface.set_description('${iface.description}')`);
-    });
+        if (data.disableDomainLookup) {
+            commands.push('disable_domain_lookup()');
+        }
 
-    if (data.ospf) {
-        commands.push(`Routing.OSPF.set_as_number('${data.ospf.asNumber}')`);
-        commands.push(`Routing.OSPF.set_router_id('${data.ospf.routerId}')`);
-        data.ospf.networks.forEach((network) => {
-            commands.push(`Routing.OSPF.add_network('${network.address}', '${network.mask}', '${network.area}')`);
+        // Interfaces
+        data.interfaces.forEach((iface) => {
+            commands.push(`configure_interface(\"${iface.type}${iface.number}\", \"${iface.ip}\", \"${iface.mask}\", \"${iface.description}\", \"${iface.mode}\", ${iface.vlan})`);
         });
-    }
 
-    if (data.rip) {
-        commands.push(`Routing.RIP.set_version('${data.rip.version}')`);
-        data.rip.networks.forEach((network) => {
-            commands.push(`Routing.RIP.add_network('${network.address}')`);
+        // VLANs
+        data.vlans.forEach((vlan) => {
+            commands.push(`create_vlan(${vlan.id}, \"${vlan.name}\")`);
         });
+
+        // OSPF
+        if (data.ospf) {
+            commands.push(`configure_ospf(${data.ospf.asNumber}, \"${data.ospf.routerId}\")`);
+            data.ospf.networks.forEach((network) => {
+                commands.push(`add_ospf_network(\"${network.address}\", \"${network.mask}\", ${network.area})`);
+            });
+        }
+
+        // RIP
+        if (data.rip) {
+            commands.push(`configure_rip(${data.rip.version})`);
+            data.rip.networks.forEach((network) => {
+                commands.push(`add_rip_network(\"${network.address}\")`);
+            });
+        }
+
+        // EIGRP
+        if (data.eigrp) {
+            commands.push(`configure_eigrp(${data.eigrp.asNumber})`);
+            data.eigrp.networks.forEach((network) => {
+                commands.push(`add_eigrp_network(\"${network.address}\", \"${network.mask}\")`);
+            });
+        }
+
+        // QoS
+        if (data.qos.length > 0) {
+            commands.push('create_qos_policy(\"QoS-Policy\")');
+            data.qos.forEach((qos) => {
+                commands.push(`add_qos_class(\"${qos.class}\", ${qos.bandwidth})`);
+            });
+        }
+
+    } catch (error) {
+        console.error('Erreur lors du formatage des données :', error);
+        commands.push('log_error(\"Erreur de formatage des données\")');
     }
 
-    if (data.eigrp) {
-        commands.push(`Routing.EIGRP.set_as_number('${data.eigrp.asNumber}')`);
-        data.eigrp.networks.forEach((network) => {
-            commands.push(`Routing.EIGRP.add_network('${network.address}', '${network.mask}')`);
-        });
-    }
-
-    data.qos.forEach((qos) => {
-        commands.push(`QoS.set_class('${qos.class}', '${qos.bandwidth}')`);
-    });
-
-    return { data: commands };
+    return commands;
 }
 function sendData() {
     console.log("Début de l'envoi des données..."); // Point de débogage 1
@@ -108,15 +124,12 @@ function sendData() {
         body: JSON.stringify(formattedData)
     })
     .then(response => {
-        console.log('Réponse du serveur reçue :', response); // Point de débogage 3
-        if (!response.ok) {
-            throw new Error('Erreur réseau lors de la communication avec le backend.');
-        }
-        return response.json();
+        console.log('Réponse brute reçue :', response); // Affiche les métadonnées de la réponse
+        return response.text(); // Récupère la réponse brute sous forme de texte
     })
     .then(result => {
-        console.log('Résultat reçu du backend :', result); // Point de débogage 4
-        document.getElementById('outputConfig').value = result.config || 'Aucune configuration générée.';
+        console.log('Contenu brut reçu du backend :', result); // Affiche le contenu brut
+        document.getElementById('outputConfig').value = result || 'Aucune réponse reçue.';
     })
     .catch(error => {
         console.error('Erreur:', error);
