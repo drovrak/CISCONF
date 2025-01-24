@@ -1,14 +1,12 @@
-<?php include 'includes/header.php'; ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personnalisation de Configuration - Cisconf</title>
-    <link rel="stylesheet" href="styles/global.css">
-    <link rel="stylesheet" href="styles/configuration.css">
-    <script src="scripts/configuration.js" defer></script>
+    <link rel="stylesheet" href="../static/css/global.css">
+    <link rel="stylesheet" href="../static/css/configuration.css">
+    <script src="static/js/configuration.js" defer></script>
 </head>
 <body>
     <main class="container">
@@ -113,18 +111,17 @@
                     <input type="text" id="qosBandwidth" name="qosBandwidth[]" placeholder="20">
                 </div>
                 <button type="button" onclick="addQosClass()">Ajouter une classe QoS</button>
-            </div>
+            </div> 
 
             <!-- Résultat -->
             <div class="config-output">
                 <h3>Configuration Générée</h3>
-                <textarea id="outputConfig" readonly></textarea>
+                <textarea id="config" readonly>{{config}}</textarea>
             </div>
 
             <!-- Bouton pour générer la configuration -->
             <button type="button" onclick="sendData()">Générer Configuration</button>
         </form>
     </main>
-    <?php include 'includes/footer.php'; ?>
 </body>
 </html>

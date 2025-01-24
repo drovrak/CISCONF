@@ -37,18 +37,26 @@ error_logger.propagate = False
 @app.route("/")
 def home():
     general_logger.info("Accès à la page d'accueil")
-    return render_template("index.html", title="Accueil")
-
-
+    return render_template("index.php", title="Accueil")
+@app.route('/configuration.php')
+def configuration():
+    return render_template('configuration.php', config='')
+@app.route('/includes/header.php')
+def header():
+    return render_template('includes/header.php')
+@app.route('/includes/footer.php')
+def footer():
+    return render_template('includes/footer.php')
 # Route pour exécuter les fonctions
 @app.route('/execute', methods=['POST'])
-def execute_functions():
+def execute_commands():
     try:
-        data = request.json.get('commands', [])  # Recevoir les données JSON envoyées depuis le frontend
+        data = request.get_json()  # Recevoir les données JSON envoyées depuis le frontend
         general_logger.info(f"Requête reçue avec les commandes : {data}")
-        configuration = "".join([eval(function) for function in data])
+        data_rendu= "".join([eval(function) for function in data])
+        print(data_rendu)
         general_logger.info("Configuration générée avec succès")
-        return render_template("index.html", config=configuration)
+        return data_rendu
     except Exception as e:
         error_logger.error(f"Erreur lors de l'exécution des fonctions : {e}")
         return jsonify({"error": "Une erreur est survenue"}), 500
