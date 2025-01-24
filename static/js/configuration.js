@@ -11,63 +11,67 @@ function formatDataAsCommands(data) {
 
     try {
         // Configuration de base
-        commands.push(`set_hostname(\"${data.hostname}\")`);
-        commands.push(`set_enable_secret(\"${data.enableSecret}\")`);
-        commands.push(`set_banner(\"${data.banner}\")`);
+        commands.push(`MainCommonCommand.set_hostname("${data.hostname}")`);
+        commands.push(`MainCommonCommand.set_enable_secret("${data.enableSecret}")`);
+        commands.push(`MainCommonCommand.set_banner("${data.banner}")`);
 
         if (data.disableDomainLookup) {
-            commands.push('disable_domain_lookup()');
+            commands.push('MainCommonCommand.disable_ip_domain_lookup()');
         }
 
         // Interfaces
         data.interfaces.forEach((iface) => {
-            commands.push(`configure_interface(\"${iface.type}${iface.number}\", \"${iface.ip}\", \"${iface.mask}\", \"${iface.description}\", \"${iface.mode}\", ${iface.vlan})`);
+            commands.push(`Interface.configure_interface("${iface.type}${iface.number}", "${iface.ip}", "${iface.mask}", "${iface.description}", "${iface.mode}", ${iface.vlan})`);
         });
 
         // VLANs
         data.vlans.forEach((vlan) => {
-            commands.push(`create_vlan(${vlan.id}, \"${vlan.name}\")`);
+            commands.push(`Acl.create_vlan(${vlan.id}, "${vlan.name}")`);
         });
 
         // OSPF
         if (data.ospf) {
-            commands.push(`configure_ospf(${data.ospf.asNumber}, \"${data.ospf.routerId}\")`);
+            commands.push(`Ospf.router_ospf(${data.ospf.asNumber})`);
+            commands.push(`Ospf.set_router_id("${data.ospf.routerId}")`);
             data.ospf.networks.forEach((network) => {
-                commands.push(`add_ospf_network(\"${network.address}\", \"${network.mask}\", ${network.area})`);
+                commands.push(`Ospf.set_network("${network.address}", "${network.mask}", ${network.area})`);
             });
         }
 
         // RIP
         if (data.rip) {
-            commands.push(`configure_rip(${data.rip.version})`);
+            commands.push(`Rip.router_rip()`);
+            commands.push(`Rip.set_version(${data.rip.version})`);
             data.rip.networks.forEach((network) => {
-                commands.push(`add_rip_network(\"${network.address}\")`);
+                commands.push(`Rip.set_network("${network.address}")`);
             });
         }
 
         // EIGRP
         if (data.eigrp) {
-            commands.push(`configure_eigrp(${data.eigrp.asNumber})`);
+            commands.push(`Eigrp.router_eigrp(${data.eigrp.asNumber})`);
             data.eigrp.networks.forEach((network) => {
-                commands.push(`add_eigrp_network(\"${network.address}\", \"${network.mask}\")`);
+                commands.push(`Eigrp.set_network("${network.address}", "${network.mask}")`);
             });
         }
 
         // QoS
         if (data.qos.length > 0) {
-            commands.push('create_qos_policy(\"QoS-Policy\")');
+            commands.push('Qos.create_policy_map("QoS-Policy")');
             data.qos.forEach((qos) => {
-                commands.push(`add_qos_class(\"${qos.class}\", ${qos.bandwidth})`);
+                commands.push(`Qos.create_class_map("${qos.class}")`);
+                commands.push(`Qos.set_bandwidth(${qos.bandwidth})`);
             });
         }
 
     } catch (error) {
         console.error('Erreur lors du formatage des données :', error);
-        commands.push('log_error(\"Erreur de formatage des données\")');
+        commands.push('MainCommonCommand.log_error("Erreur de formatage des données")');
     }
 
     return commands;
 }
+
 function sendData() {
     console.log("Début de l'envoi des données..."); // Point de débogage 1
     
