@@ -40,7 +40,7 @@ def home():
     return render_template("index.php", title="Accueil")
 @app.route('/configuration.php')
 def configuration():
-    return render_template('configuration.php')
+    return render_template('configuration.php', config='')
 @app.route('/includes/header.php')
 def header():
     return render_template('includes/header.php')
@@ -53,9 +53,10 @@ def execute_commands():
     try:
         data = request.get_json()  # Recevoir les données JSON envoyées depuis le frontend
         general_logger.info(f"Requête reçue avec les commandes : {data}")
-        execute_command = "".join([eval(function) for function in data])
+        data_rendu= "".join([eval(function) for function in data])
+        print(data_rendu)
         general_logger.info("Configuration générée avec succès")
-        return render_template("configuration.php", config=execute_command)
+        return data_rendu
     except Exception as e:
         error_logger.error(f"Erreur lors de l'exécution des fonctions : {e}")
         return jsonify({"error": "Une erreur est survenue"}), 500

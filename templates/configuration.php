@@ -116,7 +116,7 @@
             <!-- Résultat -->
             <div class="config-output">
                 <h3>Configuration Générée</h3>
-                <textarea id="outputConfig" readonly></textarea>
+                <textarea id="config" readonly>{{config}}</textarea>
             </div>
 
             <!-- Bouton pour générer la configuration -->

@@ -21,13 +21,12 @@ function formatDataAsCommands(data) {
 
         // Interfaces
         data.interfaces.forEach((iface) => {
-            commands.push(`Interface.configure_interface("${iface.type}${iface.number}", "${iface.ip}", "${iface.mask}", "${iface.description}", "${iface.mode}", ${iface.vlan})`);
+            commands.push(`Interface.configure_interface("${iface.type}","${iface.number}")`);
         });
-
         // VLANs
-        data.vlans.forEach((vlan) => {
-            commands.push(`Acl.create_vlan(${vlan.id}, "${vlan.name}")`);
-        });
+        //data.vlans.forEach((vlan) => {
+        //    commands.push(`Acl.create_vlan(${vlan.id}, "${vlan.name}")`);
+        //});
 
         // OSPF
         if (data.ospf) {
@@ -133,11 +132,11 @@ function sendData() {
     })
     .then(result => {
         console.log('Contenu brut reçu du backend :', result); // Affiche le contenu brut
-        document.getElementById('outputConfig').value = result || 'Aucune réponse reçue.';
+        document.getElementById('config').value = result || 'Aucune réponse reçue.';
     })
     .catch(error => {
         console.error('Erreur:', error);
-        document.getElementById('outputConfig').value = 'Une erreur est survenue lors de la génération.';
+        document.getElementById('config').value = 'Une erreur est survenue lors de la génération.';
     });
 }
 
