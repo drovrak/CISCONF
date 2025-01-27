@@ -137,8 +137,8 @@
                     <label for="network-address">Adresse réseau :</label>
                     <input type="text" id="network-address" name="network-address" placeholder="192.168.1.0">
 
-                    <label for="subnet-mask">Masque de sous-réseau :</label>
-                    <input type="text" id="subnet-mask" name="subnet-mask" placeholder="255.255.255.0">
+                    <label for="subnet-mask-DHCP">Masque de sous-réseau :</label>
+                    <input type="text" id="subnet-mask-DHCP" name="subnet-mask-DHCP" placeholder="255.255.255.0">
 
                     <label for="default-router">Routeur par défaut :</label>
                     <input type="text" id="default-router" name="default-router" placeholder="192.168.1.1">
