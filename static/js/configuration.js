@@ -377,7 +377,7 @@ function getDHCPData() {
 
     const poolName = document.getElementById('dhcp-pool-name')?.value || '';
     const networkAddress = document.getElementById('network-address')?.value || '';
-    const subnetMask = document.getElementById('subnet-mask')?.value || '';
+    const subnetMask = document.getElementById('subnet-mask-DHCP')?.value || '';
     const defaultRouter = document.getElementById('default-router')?.value || '';
     const dnsServer = document.getElementById('dns-server')?.value || '';
     const domainName = document.getElementById('domain-name')?.value || '';
