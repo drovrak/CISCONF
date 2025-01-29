@@ -1,5 +1,5 @@
 from main_class import *
-
+from tools import *
 
 
 class MainRouterCommand(MainCommonCommand):
@@ -8,7 +8,7 @@ class MainRouterCommand(MainCommonCommand):
     @staticmethod
     def set_ip_route(destination,mask,next_hope):
         """Défini une route statique, next hope est à la fois une interface et une adresse ip """
-        return f"!\nip route {destination} {mask} {next_hope}\n"
+        return f"!\nip route {destination} {prefixe_vers_masque(mask)} {next_hope}\n"
 
 
 
@@ -78,7 +78,7 @@ class Nat(Interface):
     @staticmethod
     def configure_nat_pool(pool_name, start_ip, end_ip, netmask):
         """Créer un pool NAT."""
-        return f"!\nip nat pool {pool_name} {start_ip} {end_ip} netmask {netmask}\n"
+        return f"!\nip nat pool {pool_name} {start_ip} {end_ip} netmask {prefixe_vers_masque(netmask)}\n"
 
     @staticmethod
     def configure_pat(interface, access_list):
