@@ -1,3 +1,5 @@
+from tools import *
+
 class MainCommonCommand:
     """    
     Attributes:
@@ -171,7 +173,7 @@ class Interface: # Pour l'instant on ne divise pas en plusieurs class car il n'y
     @staticmethod
     def set_ip_address( ip_address, subnet_mask):
         """Configure une adresse IP pour l'interface."""
-        return f" ip address {ip_address} {subnet_mask}\n"
+        return f" ip address {ip_address} {prefixe_vers_masque(subnet_mask)}\n"
 
     @staticmethod
     def set_description( description):
@@ -227,7 +229,7 @@ class Dhcp:
     @staticmethod
     def set_network( address, mask):
         """Configurer le réseau."""
-        return f" network {address} {mask}\n"
+        return f" network {address} {prefixe_vers_masque(mask)}\n"
 
     @staticmethod
     def set_default_router( router_address):
@@ -312,7 +314,7 @@ class Ospf:
     @staticmethod
     def set_network(network,mask_inversee,num_area):
         """Configurer un network"""
-        return f" network {network} {mask_inversee} area {num_area}\n"
+        return f" network {network} {prefixe_vers_masque(mask_inversee,True)} area {num_area}\n"
 
     @staticmethod
     def set_default_information():
@@ -327,7 +329,7 @@ class Ospf:
     @staticmethod
     def set_area_parameters_summerize(numero_AS,network,mask):
         """Résumer les routes correspondant à l'adresse/au masque"""
-        return f"area {numero_AS} range {network} {mask}\n"
+        return f"area {numero_AS} range {network} {prefixe_vers_masque(mask)}\n"
     
     @staticmethod
     def exit():
@@ -346,9 +348,9 @@ class Eigrp:
         return f"!\nrouter eigrp {as_number}\n"
     
     @staticmethod
-    def set_network( network, masque_inversee):
+    def set_network( network, masque_cidr):
         """Configurer un réseau dans EIGRP"""
-        return f" network {network} {masque_inversee}\n"
+        return f" network {network} {prefixe_vers_masque(masque_cidr,True)}\n"
 
     @staticmethod
     def disable_auto_summary():
@@ -382,9 +384,9 @@ class Rip:
         return f" version {version}\n"
     
     @staticmethod
-    def set_network( network, masque_inversee):
+    def set_network( network, masque_cidr):
         """Configurer un réseau dans RIP"""
-        return f" network {network} {masque_inversee}\n"
+        return f" network {network} {prefixe_vers_masque(masque_cidr,True)}\n"
     
     @staticmethod
     def disable_auto_summary():
@@ -408,7 +410,7 @@ class Acl:
     @staticmethod    
     def config_standard_acl(deny_or_permit,any_or_host_or_ip,wildcard_mask_ip_case_or_ip_address_host_case=""):
         """Le dernier paramétre est optionnel il est a renseigner dans le cas d'une adresse ip"""
-        return f" {deny_or_permit} {any_or_host_or_ip} {wildcard_mask_ip_case_or_ip_address_host_case}\n"
+        return f" {deny_or_permit} {any_or_host_or_ip} {prefixe_vers_masque(wildcard_mask_ip_case_or_ip_address_host_case,True)}\n"
     @staticmethod    
     def config_extended_acl(args):
         acl =" ".join([f"{arg}" for arg in args])
