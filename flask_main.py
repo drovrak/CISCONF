@@ -62,18 +62,14 @@ def execute_commands():
     try:
         data = request.get_json()  # Recevoir les données JSON envoyées depuis le frontend
         general_logger.info(f"Requête reçue avec les commandes : {data}")
-
-        if not isinstance(data, list):
-            raise ValueError("Les données reçues doivent être une liste de commandes valides.")
-
-        # Remplacement de eval() pour éviter les failles de sécurité
-        data_rendu = "\n".join([str(function) for function in data])
-
+        data_rendu= "".join([eval(function) for function in data])
+        print(data_rendu)
         general_logger.info("Configuration générée avec succès")
         return data_rendu
     except Exception as e:
-        error_logger.error(f"Erreur lors de l'exécution des fonctions : {str(e)}", exc_info=True)
+        error_logger.error(f"Erreur lors de l'exécution des fonctions : {e}")
         return jsonify({"error": "Une erreur est survenue"}), 500
+
 
 
 # Gestion des erreurs 404
