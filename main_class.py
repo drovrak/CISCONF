@@ -358,9 +358,9 @@ class Eigrp:
         return f" no auto-summary\n"
 
     @staticmethod
-    def set_passive_interface( interface_type, interface_number):
+    def set_passive_interface( interface):
         """Configurer une interface en mode passive avec son type et numéro"""
-        return f" passive-interface {interface_type}{interface_number}\n"
+        return f" passive-interface {interface}\n"
     
     @staticmethod
     def exit():

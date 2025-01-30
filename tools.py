@@ -6,3 +6,5 @@ def prefixe_vers_masque(prefixe, wildcard=False):
         return str(réseau.hostmask if wildcard else réseau.netmask)
     else:
         return prefixe
+    
+print(prefixe_vers_masque("/24"))
