@@ -92,25 +92,25 @@
                     <input type="text" id="dhcp-pool-name" name="dhcp-pool-name" placeholder="POOL_NAME">
 
                     <label for="network-address">Adresse réseau :</label>
-                    <input type="text" id="network-address" name="network-address" placeholder="192.168.1.0">
+                    <input type="number" id="network-address" name="network-address" placeholder="192.168.1.0">
 
                     <label for="subnet-mask">Masque de sous-réseau :</label>
-                    <input type="text" id="subnet-mask" name="subnet-mask" placeholder="255.255.255.0">
+                    <input type="number" id="subnet-mask" name="subnet-mask" placeholder="255.255.255.0">
 
                     <label for="default-router">Routeur par défaut :</label>
-                    <input type="text" id="default-router" name="default-router" placeholder="192.168.1.1">
+                    <input type="number" id="default-router" name="default-router" placeholder="192.168.1.1">
 
                     <label for="dns-server">Serveur DNS :</label>
-                    <input type="text" id="dns-server" name="dns-server" placeholder="8.8.8.8">
+                    <input type="number" id="dns-server" name="dns-server" placeholder="8.8.8.8">
 
                     <label for="domain-name">Nom de domaine :</label>
                     <input type="text" id="domain-name" name="domain-name" placeholder="example.com">
 
                     <label for="excluded-start">Adresse exclue (début) :</label>
-                    <input type="text" id="excluded-start" name="excluded-start" placeholder="192.168.1.100">
+                    <input type="number" id="excluded-start" name="excluded-start" placeholder="192.168.1.100">
 
                     <label for="excluded-end">Adresse exclue (fin) :</label>
-                    <input type="text" id="excluded-end" name="excluded-end" placeholder="192.168.1.150">
+                    <input type="number" id="excluded-end" name="excluded-end" placeholder="192.168.1.150">
                 </div>
             </div>
 
@@ -127,7 +127,7 @@
                     <div id="vlans-container">
                         <div class="vlan-config">
                             <label for="vlan-id-0">ID VLAN :</label>
-                            <input type="text" id="vlan-id-0" name="vlanId[]" placeholder="VLAN ID">
+                            <input type="number" id="vlan-id-0" name="vlanId[]" placeholder="VLAN ID">
                             <label for="vlan-name-0">Nom VLAN :</label>
                             <input type="text" id="vlan-name-0" name="vlanName[]" placeholder="Nom VLAN">
                         </div>
@@ -152,9 +152,9 @@
                     <!-- Premier réseau par défaut -->
                     <div class="rip-network-container">
                         <label for="ripNetwork">Network :</label>
-                        <input type="text" class="rip-network" placeholder="192.168.1.0">
+                        <input type="number" class="rip-network" placeholder="192.168.1.0">
                         <label for="ripMask">Masque inversé :</label>
-                        <input type="text" class="rip-mask" placeholder="0.0.0.255">
+                        <input type="number" class="rip-mask" placeholder="0.0.0.255">
                     </div>
                     <button type="button" onclick="addRipNetwork()">Ajouter un réseau RIP</button>
                 </div>
@@ -167,19 +167,19 @@
             <div id="OSPF" style="display: none;">
                 <div>
                     <label for="ospf-as-number">Numéro AS OSPF :</label>
-                    <input type="text" id="ospf-as-number" name="ospf-as-number" placeholder="1">
+                    <input type="number" id="ospf-as-number" name="ospf-as-number" placeholder="1">
 
                     <label for="router-id">Router ID :</label>
-                    <input type="text" id="router-id" name="router-id" placeholder="1.1.1.1">
+                    <input type="number" id="router-id" name="router-id" placeholder="1.1.1.1">
 
                     <label for="ospf-network">Adresse réseau :</label>
-                    <input type="text" id="ospf-network" name="ospf-network" placeholder="192.168.1.0">
+                    <input type="number" id="ospf-network" name="ospf-network" placeholder="192.168.1.0">
 
                     <label for="ospf-wildcard-mask">Masque inversé :</label>
-                    <input type="text" id="ospf-wildcard-mask" name="ospf-wildcard-mask" placeholder="0.0.0.255">
+                    <input type="number" id="ospf-wildcard-mask" name="ospf-wildcard-mask" placeholder="0.0.0.255">
 
                     <label for="ospf-area-number">Numéro d'Area :</label>
-                    <input type="text" id="ospf-area-number" name="ospf-area-number" placeholder="0">
+                    <input type="number" id="ospf-area-number" name="ospf-area-number" placeholder="0">
 
                     <label for="ospf-passive-interface">Interface passive :</label>
                     <input type="text" id="ospf-passive-interface" name="ospf-passive-interface" placeholder="GigabitEthernet0/1">
@@ -205,17 +205,17 @@
                 <div id="eigrp" style="display: none;">
                     <!-- Champ pour le numéro AS -->
                     <label for="eigrp-as-number">Numéro AS EIGRP :</label>
-                    <input type="text" id="eigrp-as-number" name="eigrp-as-number" placeholder="1">
+                    <input type="number" id="eigrp-as-number" name="eigrp-as-number" placeholder="1">
                     
                     <!-- Conteneur pour les réseaux EIGRP -->
                     <div id="eigrp-networks-container">
                         <!-- Premier réseau par défaut -->
                         <div class="eigrp-network-container">
                             <label for="eigrp-network-0">Adresse réseau :</label>
-                            <input type="text" id="eigrp-network-0" class="eigrp-network" placeholder="192.168.1.0">
+                            <input type="number" id="eigrp-network-0" class="eigrp-network" placeholder="192.168.1.0">
 
                             <label for="eigrp-mask-0">Masque inversé :</label>
-                            <input type="text" id="eigrp-mask-0" class="eigrp-mask" placeholder="0.0.0.255">
+                            <input type="number" id="eigrp-mask-0" class="eigrp-mask" placeholder="0.0.0.255">
                         </div>
                     </div>
                     <!-- Bouton pour ajouter un réseau supplémentaire -->
@@ -236,13 +236,13 @@
             <h3><label><input type="checkbox" id="enable-HSRP" name="enable-HSRP" onclick="toggleSection('HSRP')">HSRP configuration</label></h3>
             <div id="HSRP" style="display: none;">
                     <label for="hsrp-group">Groupe HSRP :</label>
-                    <input type="text" id="hsrp-group" name="hsrp-group" placeholder="1">
+                    <input type="number" id="hsrp-group" name="hsrp-group" placeholder="1">
 
                     <label for="hsrp-virtual-ip">Adresse IP virtuelle :</label>
-                    <input type="text" id="hsrp-virtual-ip" name="hsrp-virtual-ip" placeholder="192.168.1.1">
+                    <input type="number" id="hsrp-virtual-ip" name="hsrp-virtual-ip" placeholder="192.168.1.1">
 
                     <label for="hsrp-priority">Priorité :</label>
-                    <input type="text" id="hsrp-priority" name="hsrp-priority" placeholder="100">
+                    <input type="number" id="hsrp-priority" name="hsrp-priority" placeholder="100">
 
                     <label for="hsrp-preempt">Activer Preempt :</label>
                     <input type="checkbox" id="hsrp-preempt" name="hsrp-preempt">
@@ -251,16 +251,16 @@
                     <input type="text" id="hsrp-authentication" name="hsrp-authentication" placeholder="cisco123">
 
                     <label for="hsrp-hello-time">Timer Hello (sec) :</label>
-                    <input type="text" id="hsrp-hello-time" name="hsrp-hello-time" placeholder="3">
+                    <input type="number" id="hsrp-hello-time" name="hsrp-hello-time" placeholder="3">
 
                     <label for="hsrp-hold-time">Timer Hold (sec) :</label>
-                    <input type="text" id="hsrp-hold-time" name="hsrp-hold-time" placeholder="10">
+                    <input type="number" id="hsrp-hold-time" name="hsrp-hold-time" placeholder="10">
 
                     <label for="tracked-interface">Interface suivie :</label>
                     <input type="text" id="tracked-interface" name="tracked-interface" placeholder="GigabitEthernet0/1">
 
                     <label for="decrement-value">Valeur de décrémentation :</label>
-                    <input type="text" id="decrement-value" name="decrement-value" placeholder="20">
+                    <input type="number" id="decrement-value" name="decrement-value" placeholder="20">
                 </div>
             </div>
 
@@ -314,7 +314,7 @@
                     </select>
 
                     <label for="vlan-root-number">VLAN (Root) :</label>
-                    <input type="text" id="vlan-root-number" name="vlan-root-number" placeholder="10">
+                    <input type="number" id="vlan-root-number" name="vlan-root-number" placeholder="10">
 
                     <label for="vlan-root-role">Rôle Root :</label>
                     <select id="vlan-root-role" name="vlan-root-role">
@@ -355,7 +355,7 @@
                     </select>
 
                     <label for="nat-inside-number">Numéro d'interface Inside :</label>
-                    <input type="text" id="nat-inside-number" name="nat-inside-number" placeholder="0/6">
+                    <input type="number" id="nat-inside-number" name="nat-inside-number" placeholder="0/6">
 
                     <!-- Interface Outside -->
                     <label for="nat-outside-type">Type d'interface Outside :</label>
@@ -372,10 +372,10 @@
                     <h4><label><input type="checkbox" id="enable-static-nat" onclick="toggleSection('static-nat')"> NAT Statique</label></h4>
                     <div id="static-nat" style="display: none;">
                         <label for="nat-static-local">Adresse IP locale :</label>
-                        <input type="text" id="nat-static-local" name="nat-static-local" placeholder="192.168.1.10">
+                        <input type="number" id="nat-static-local" name="nat-static-local" placeholder="192.168.1.10">
 
                         <label for="nat-static-global">Adresse IP publique :</label>
-                        <input type="text" id="nat-static-global" name="nat-static-global" placeholder="203.0.113.5">
+                        <input type="number" id="nat-static-global" name="nat-static-global" placeholder="203.0.113.5">
                     </div>
 
                     <!-- NAT Dynamique -->
@@ -385,16 +385,16 @@
                         <input type="text" id="nat-pool-name" name="nat-pool-name" placeholder="POOL1">
 
                         <label for="nat-pool-start">Adresse IP de début :</label>
-                        <input type="text" id="nat-pool-start" name="nat-pool-start" placeholder="203.0.113.6">
+                        <input type="number" id="nat-pool-start" name="nat-pool-start" placeholder="203.0.113.6">
 
                         <label for="nat-pool-end">Adresse IP de fin :</label>
-                        <input type="text" id="nat-pool-end" name="nat-pool-end" placeholder="203.0.113.10">
+                        <input type="number" id="nat-pool-end" name="nat-pool-end" placeholder="203.0.113.10">
 
                         <label for="nat-mask">Masque de sous-réseau :</label>
-                        <input type="text" id="nat-mask" name="nat-mask" placeholder="255.255.255.248">
+                        <input type="number" id="nat-mask" name="nat-mask" placeholder="255.255.255.248">
 
                         <label for="nat-access-list">Numéro de l'Access-List :</label>
-                        <input type="text" id="nat-access-list" name="nat-access-list" placeholder="10">
+                        <input type="number" id="nat-access-list" name="nat-access-list" placeholder="10">
                     </div>
                     <!-- PAT -->
                     <h4><label><input type="checkbox" id="enable-pat" onclick="toggleSection('pat')"> PAT (Port Address Translation)</label></h4>
@@ -403,7 +403,7 @@
                         <input type="text" id="nat-pat-interface" name="nat-pat-interface" placeholder="GigabitEthernet0/2">
 
                         <label for="nat-pat-access-list">Numéro de l'Access-List pour PAT :</label>
-                        <input type="text" id="nat-pat-access-list" name="nat-pat-access-list" placeholder="10">
+                        <input type="number" id="nat-pat-access-list" name="nat-pat-access-list" placeholder="10">
                     </div>
 
                 </div>
@@ -472,10 +472,10 @@
                 <input type="text" id="qos-policy-name" name="qos-policy-name" placeholder="QOS_POLICY">
 
                 <label for="qos-voip-bandwidth">Bande passante VoIP (%) :</label>
-                <input type="text" id="qos-voip-bandwidth" name="qos-voip-bandwidth" placeholder="20">
+                <input type="number" id="qos-voip-bandwidth" name="qos-voip-bandwidth" placeholder="20">
 
                 <label for="qos-http-bandwidth">Bande passante HTTP (%) :</label>
-                <input type="text" id="qos-http-bandwidth" name="qos-http-bandwidth" placeholder="10">
+                <input type="number" id="qos-http-bandwidth" name="qos-http-bandwidth" placeholder="10">
 
                 <!-- Application sur interface -->
                 <h4>Application de QoS</h4>
@@ -546,13 +546,13 @@
                 <input type="number" id="max-ephone" name="max-ephone" value="5" min="1" max="10">
 
                 <label for="source-address">Adresse IP source :</label>
-                <input type="text" id="source-address" name="source-address" placeholder="192.168.1.1">
+                <input type="number" id="source-address" name="source-address" placeholder="192.168.1.1">
 
                 <label for="port">Port :</label>
                 <input type="number" id="port" name="port" value="2000">
 
                 <label for="voicemail">Numéro de la messagerie vocale :</label>
-                <input type="text" id="voicemail" name="voicemail" placeholder="6000">
+                <input type="number" id="voicemail" name="voicemail" placeholder="6000">
 
                 <!-- Gestion des Directory Numbers (DN) -->
                 <h4>Configuration des Directory Numbers (DN)</h4>
