@@ -64,7 +64,9 @@ L’application sera accessible à l’adresse : [http://ciscconf.boby.ovh/](htt
 - Services additionnels : DHCP, NAT, ACL  
 - Personnalisation : Nom du routeur, interfaces réseau, VLAN  
 ```
+![Capture d’écran du 2025-01-31 09-10-14](https://github.com/user-attachments/assets/67b87dfb-a636-4b4a-bf38-2822b73a1a5c)
 
+![Capture d’écran du 2025-01-31 09-11-14](https://github.com/user-attachments/assets/21d0941a-cd2d-45c0-aadc-a828c98e2407)
 
 ---
 
