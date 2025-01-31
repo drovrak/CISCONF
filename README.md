@@ -3,6 +3,8 @@
 ## 📖 Résumé
 CISCONF est une application permettant de générer et gérer des fichiers de configuration pour les équipements réseau **Cisco** via une interface web conviviale. Elle est conçue pour être facilement déployable grâce à **Docker**.
 
+![Capture d’écran du 2024-12-18 16-47-55](https://github.com/user-attachments/assets/03eeb894-0be8-4652-99df-1781072ffff4)
+
 ---
 
 ## 🚀 Fonctionnalités
