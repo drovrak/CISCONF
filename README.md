@@ -110,7 +110,6 @@ Les contributions sont les bienvenues !
 ---
 
 ### 🔗 Liens utiles
-```bash
-- Documentation Cisco : https://www.cisco.com/c/en/us/support/docs.html    
-```
+
+- Documentation Cisco : (https://www.cisco.com/c/en/us/support/docs.html)
 
